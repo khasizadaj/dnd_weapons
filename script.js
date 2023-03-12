@@ -26,7 +26,7 @@ const weapons = [
                 "damage": "radiant"
             },
         ],
-        "modifier": 2
+        "modifier": 0
     },
     {
         "id": "bb",
