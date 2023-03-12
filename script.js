@@ -161,6 +161,15 @@ const getFormattedRolls = (rolls) => {
     return result;
 }
 
+const getFormattedRolls2 = (rolls) => {
+    let result = []
+    rolls.forEach(roll => {
+        let rollInfo = `== ${roll.amount} (d${roll.die.type}: ${roll.die.damage}); `
+        result.push(getElement("p", rollInfo, "result-roll-info", "text"))
+    })
+    return result;
+}
+
 const getFormattedResult = (result) => {
     let totalDamage = `${result.total + strengthModifier} (${result.total + strengthModifierShifted})`
     let rolls = getFormattedRolls(result.rolls);
@@ -169,14 +178,34 @@ const getFormattedResult = (result) => {
     return `${totalDamage} | ${rolls}; ${modifier}; ${globalModifer}`
 }
 
+const placeResults = (resultElement, rollResult) => {
+    let totalDamage = `${rollResult.total + strengthModifier} (${rollResult.total + strengthModifierShifted})`
+    let damageElement = getElement("p", totalDamage, "result-total", "text")
+    resultElement.appendChild(damageElement);
+    
+    let formattedRolls = getFormattedRolls2(rollResult.rolls);
+    formattedRolls.forEach(formattedRoll => {
+        resultElement.appendChild(formattedRoll)
+    })
+    
+    let modifier = `Mod: +${rollResult.modifier}`
+    let modifierElement = getElement("p", modifier, "result-modifier", "text", "weapon-modifier")
+    resultElement.appendChild(modifierElement);
+
+    let globalModifer = `G. Mod: +${strengthModifier} (${strengthModifierShifted})`
+    let globalModifierElement = getElement("p", globalModifer, "result-modifier", "text", "global-modifier")
+    resultElement.appendChild(globalModifierElement);    
+}
+
 place(weapons)
 
 document.querySelectorAll(".weapon").forEach(weapon => {
     let button = weapon.querySelector(".roll");
     button.addEventListener("click", () => {
         let resultElement = weapon.querySelector(".result")
+        resultElement.textContent = "";
         let rollResult = calculateDamage(button.id);
-        resultElement.textContent = getFormattedResult(rollResult);
+        placeResults(resultElement, rollResult)
         console.log(rollResult)
     })
 })
