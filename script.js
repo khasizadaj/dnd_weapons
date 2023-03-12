@@ -1,68 +1,7 @@
+import { weapons } from "/weapons.js";
+
 const strengthModifier = 4;
 const strengthModifierShifted = 5;
-const weapons = [
-    {
-        "id": "aa",
-        "name": "Greatsword of Artorius",
-        "dice": [
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
-                "type": 4,
-                "damage": "force"
-            },
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "radiant"
-            },
-        ],
-        "modifier": 0
-    },
-    {
-        "id": "bb",
-        "name": "Star Sickle",
-        "dice": [
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
-                "type": 4,
-                "damage": "default"
-            },
-            {
-                "count": 1,
-                "type": 4,
-                "damage": "force"
-            },
-        ],
-        "modifier": 1
-    },
-    {
-        "id": "cc",
-        "name": "Star Razor",
-        "dice": [
-            {
-                "count": 1,
-                "type": 8,
-                "damage": "default"
-            },
-        ],
-        "modifier": 2
-    }
-]
 
 const getElement = (type, content = "", classes = "", contentType = "text", id = "") => {
     let element;
@@ -132,8 +71,8 @@ const getWeapon = (id) => {
 }
 
 const roll = (die) => {
-    min = 1;
-    max = Math.floor(die.type);
+    let min = 1;
+    let max = Math.floor(die.type);
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
@@ -206,6 +145,5 @@ document.querySelectorAll(".weapon").forEach(weapon => {
         resultElement.textContent = "";
         let rollResult = calculateDamage(button.id);
         placeResults(resultElement, rollResult)
-        console.log(rollResult)
     })
 })
