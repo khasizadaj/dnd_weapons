@@ -121,8 +121,6 @@ const place = (data) => {
     });
 }
 
-place(weapons)
-
 const getWeapon = (id) => {
     let weapon;
     weapons.forEach(element => {
@@ -162,6 +160,7 @@ const getFormattedRolls = (rolls) => {
     })
     return result;
 }
+
 const getFormattedResult = (result) => {
     let totalDamage = `${result.total + strengthModifier} (${result.total + strengthModifierShifted})`
     let rolls = getFormattedRolls(result.rolls);
@@ -169,6 +168,8 @@ const getFormattedResult = (result) => {
     let globalModifer = `G. Mod: +${strengthModifier} (${strengthModifierShifted})`
     return `${totalDamage} | ${rolls}; ${modifier}; ${globalModifer}`
 }
+
+place(weapons)
 
 document.querySelectorAll(".weapon").forEach(weapon => {
     let button = weapon.querySelector(".roll");
