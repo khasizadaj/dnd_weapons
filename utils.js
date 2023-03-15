@@ -1,21 +1,30 @@
-import { weapons } from "/weapons.js";
+const STRENGTH_MODIFIER = 4;
+const STRENGTH_MODIFIER_SHIFTED = 5;
 
-const strengthModifier = 4;
-const strengthModifierShifted = 5;
+class ElementParams {
+    constructor({ type, content = "", classes = "", contentType = "text", id = "" }) {
+        this.type = type;
+        this.content = content;
+        this.classes = classes;
+        this.contentType = contentType;
+        this.id = id;
+    }
+}
 
-const getElement = (type, content = "", classes = "", contentType = "text", id = "") => {
+const getElement = (params) => {
     let element;
-    element = document.createElement(type);
-    if (contentType == "text") {
-        element.textContent = content;
-    } else if (contentType == "html") {
-        element.innerHTML = content;
+    element = document.createElement(params.type);
+    if (params.contentType == "text") {
+        element.textContent = params.content;
+    } else if (params.contentType == "html") {
+        element.innerHTML = params.content;
     }
-    if (classes.length != 0) {
-        element.className = classes
+
+    if (params.classes.length != 0) {
+        element.className = params.classes
     }
-    if (id.toString().length != 0) {
-        element.id = id.toString()
+    if (params.id.toString().length != 0) {
+        element.id = params.id.toString()
     }
     return element;
 }
@@ -25,44 +34,59 @@ const createDice = (data) => {
     data.forEach(die => {
         let content = `${die.count}d${die.type} (${die.damage})`
         let classes = `damage-die damage-type ${die.damage}`
-        let dieElement = getElement("span", content, classes)
+
+        let dieElement = getElement(
+            new ElementParams(
+                { "type": "span", "content": content, "classes": classes, "id": 10 }
+            )
+        )
         dice.push(dieElement)
     })
     return dice;
 }
 
-const createWeapon = (element) => {
-    let weapon = getElement("article", "", "weapon");
-    let heading = getElement("h3", element.name, "name")
-    let info = getElement("div", "", "info")
-    let dice = createDice(element.dice);
-    dice.forEach(die => {
-        info.appendChild(die)
-    })
-    let modifier = getElement("span", `+${element.modifier}`, "modifier")
-    info.appendChild(modifier)
+const createWeapon = (weapon) => {
+    let weaponElement = getElement(
+        new ElementParams(
+            { "type": "article", "classes": "weapon" }
+        )
+    );
+    let headingElement = getElement(
+        new ElementParams(
+            { "type": "h3", "content": weapon.name, "classes": "name" }
+        )
+    );
+    let infoElement = getInfoElement(weapon);
 
-    let button = getElement("button", "Roll", "roll", "text", element.id)
-    let result = getElement("div", "n/a", "result")
+    let buttonElement = getElement(
+        new ElementParams(
+            { "type": "button", "content": "Roll", "classes": "roll", "id": weapon.id }
+        )
+    );
+    let resultElement = getElement(
+        new ElementParams(
+            { "type": "div", "content": "N/A", "classes": "result" }
+        )
+    );
 
-    weapon.appendChild(heading)
-    weapon.appendChild(info)
-    weapon.appendChild(button)
-    weapon.appendChild(result)
+    weaponElement.appendChild(headingElement)
+    weaponElement.appendChild(infoElement)
+    weaponElement.appendChild(buttonElement)
+    weaponElement.appendChild(resultElement)
 
-    return weapon;
+    return weaponElement;
 }
 
-const place = (data) => {
+const placeWeapons = (data) => {
     data.forEach(element => {
         let weapon = createWeapon(element);
         document.querySelector(".weapons").appendChild(weapon);
     });
 }
 
-const getWeapon = (id) => {
+const getWeaponParams = (id, data) => {
     let weapon;
-    weapons.forEach(element => {
+    data.forEach(element => {
         if (element.id == id) {
             weapon = element
         }
@@ -76,49 +100,87 @@ const roll = (die) => {
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
-const calculateDamage = (id) => {
+const calculateDamage = (id, weapons) => {
     console.log(`#${id}`)
-    let weaponInfo = getWeapon(id)
+    let weaponParams = getWeaponParams(id, weapons)
     let total = 0;
     let rolls = []
 
-    weaponInfo.dice.forEach(die => {
+    weaponParams.dice.forEach(die => {
         let rollAmount = roll(die);
         total += rollAmount;
         rolls.push({ "die": die, "amount": rollAmount });
     })
 
-    total += weaponInfo.modifier;
-    return { "total": total, "rolls": rolls, "modifier": weaponInfo.modifier };
+    total += weaponParams.modifier;
+    return { "total": total, "rolls": rolls, "modifier": weaponParams.modifier };
 }
 
 const getFormattedRolls = (rolls) => {
     let result = []
     rolls.forEach(roll => {
         let rollInfo = `== ${roll.amount} (d${roll.die.type}: ${roll.die.damage}); `
-        result.push(getElement("p", rollInfo, "result-roll-info", "text"))
+        result.push(getElement(
+            new ElementParams(
+                { "type": "p", "content": rollInfo, "classes": "result-roll-info" }
+            )
+        ))
     })
     return result;
 }
 
 const placeResults = (resultElement, rollResult) => {
-    let totalDamage = `${rollResult.total + strengthModifier} (${rollResult.total + strengthModifierShifted})`
-    let damageElement = getElement("p", totalDamage, "result-total", "text")
+    let totalDamage = `${rollResult.total + STRENGTH_MODIFIER} (${rollResult.total + STRENGTH_MODIFIER_SHIFTED})`
+    let damageElement = getElement(
+        new ElementParams(
+            { "type": "p", "content": totalDamage, "classes": "result-total" }
+        )
+    );
+
     resultElement.appendChild(damageElement);
-    
+
     let formattedRolls = getFormattedRolls(rollResult.rolls);
     formattedRolls.forEach(formattedRoll => {
         resultElement.appendChild(formattedRoll)
     })
-    
+
     let modifier = `Mod: +${rollResult.modifier}`
-    let modifierElement = getElement("p", modifier, "result-modifier", "text", "weapon-modifier")
+    let modifierElement = getElement(
+        new ElementParams(
+            { "type": "p", "content": modifier, "classes": "modifier", "id": "weapon-modifier" }
+        )
+    );
     resultElement.appendChild(modifierElement);
 
-    let globalModifer = `G. Mod: +${strengthModifier} (${strengthModifierShifted})`
-    let globalModifierElement = getElement("p", globalModifer, "result-modifier", "text", "global-modifier")
-    resultElement.appendChild(globalModifierElement);    
+    let globalModifer = `G. Mod: +${STRENGTH_MODIFIER} (${STRENGTH_MODIFIER_SHIFTED})`
+    let globalModifierElement = getElement(
+        new ElementParams(
+            { "type": "p", "content": globalModifer, "classes": "modifier", "id": "global-modifier" }
+        )
+    );
+    resultElement.appendChild(globalModifierElement);
 }
 
-export { place, calculateDamage, placeResults };
+function getInfoElement(weapon) {
+    let info = getElement(
+        new ElementParams(
+            { "type": "div", "classes": "info" }
+        )
+    );
+
+    let dice = createDice(weapon.dice);
+    dice.forEach(die => {
+        info.appendChild(die);
+    });
+
+    let modifier = getElement(
+        new ElementParams(
+            { "type": "span", "content": `+${weapon.modifier}`, "classes": "modifier" }
+        )
+    );
+    info.appendChild(modifier);
+    return info;
+}
+
+export { placeWeapons, calculateDamage, placeResults };
 
