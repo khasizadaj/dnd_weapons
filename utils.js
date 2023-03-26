@@ -95,14 +95,21 @@ const createDice = (data) => {
     let dice = []
 
     data.forEach(die => {
-        let content = `${die.count}d${die.type} (${die.damage})`
-        let classes = `damage-die damage-type ${die.damage}`
+        let content = `${die.count}d${die.type}`
+        let classes = `damage-die`
 
         let dieElement = getElement(
             new ElementParams(
                 { "type": "span", "content": content, "classes": classes, "id": 10 }
             )
         )
+
+        let icon = getElement(new ElementParams(
+                {"type": "i", "classes":`icon ${die.damage}`}
+            ))
+        
+        dieElement.appendChild(icon)
+
         dice.push(dieElement)
     })
     return dice;
