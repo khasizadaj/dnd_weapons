@@ -1,5 +1,5 @@
-import { calculateDamage, CSS_SELECTORS, getWeaponParams, placeResults, placeWeapons } from "/utils.js";
-import { weapons } from "/weapons.js";
+import { calculateDamage, CSS_SELECTORS, getWeaponParams, placeResults, placeWeapons } from "./utils.js";
+import { weapons } from "./weapons.js";
 
 placeWeapons(weapons)
 
