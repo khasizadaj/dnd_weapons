@@ -30,9 +30,8 @@ const getWeaponParams = (id, data) => {
     return weapon;
 }
 
-const roll = (die) => {
+const roll = (max) => {
     let min = 1;
-    let max = Math.floor(die.type);
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
@@ -41,7 +40,7 @@ const calculateDamage = (data) => {
     let rolls = []
 
     data.dice.forEach(die => {
-        let rollAmount = roll(die);
+        let rollAmount = roll(die.type);
         total += rollAmount;
         rolls.push({ "die": die, "amount": rollAmount });
     })
@@ -208,5 +207,8 @@ const placeResults = (resultElement, rollResult) => {
     resultElement.appendChild(getGlobalModiferElement());
 }
 
-export { placeWeapons, calculateDamage, placeResults, getWeaponParams, CSS_SELECTORS };
+export {
+    placeWeapons, calculateDamage, placeResults, getWeaponParams,
+    CSS_SELECTORS, ElementParams, getElement, roll
+};
 
