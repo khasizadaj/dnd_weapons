@@ -1,3 +1,6 @@
+import { roll, rollD20 } from "./die.js";
+import { ElementParams, getElement } from "./htmlElement.js";
+
 const STRENGTH_MODIFIER = 4;
 const PROFICIENCY_BONUS = 4;
 const STRENGTH_MODIFIER_SHIFTED = 5;
@@ -9,16 +12,6 @@ const CSS_SELECTORS = {
         "roll": ".roll"
     },
     "result": ".result"
-}
-
-class ElementParams {
-    constructor({ type, content = "", classes = "", contentType = "text", id = "" }) {
-        this.type = type;
-        this.content = content;
-        this.classes = classes;
-        this.contentType = contentType;
-        this.id = id;
-    }
 }
 
 class AttackResult {
@@ -42,15 +35,6 @@ const getWeaponParams = (id, data) => {
     return weapon;
 }
 
-const roll = (max) => {
-    let min = 1;
-    return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-}
-
-const rollD20 = () => {
-    return roll(20);
-}
-
 const calculateAttack = (weapon) => {
     let roll = {"die": {
         "type":20,
@@ -72,26 +56,6 @@ const calculateDamage = (data) => {
     total += data.modifier;
     return { "total": total, "rolls": rolls, "modifier": data.modifier };
 }
-
-const getElement = (elementParams) => {
-    let element = document.createElement(elementParams.type);
-
-    if (elementParams.contentType == "text") {
-        element.textContent = elementParams.content;
-    } else if (elementParams.contentType == "html") {
-        element.innerHTML = elementParams.content;
-    }
-
-    if (elementParams.classes.length != 0) {
-        element.className = elementParams.classes
-    }
-
-    if (elementParams.id.toString().length != 0) {
-        element.id = elementParams.id.toString()
-    }
-    return element;
-}
-
 
 function getInfoElement(weapon) {
     let info = getElement(
@@ -252,6 +216,6 @@ const placeResults = (resultElement, damageRollResult, attackRollResult) => {
 
 export {
     placeWeapons, calculateDamage, placeResults, getWeaponParams, calculateAttack,
-    CSS_SELECTORS, ElementParams, getElement, roll
+    CSS_SELECTORS, roll
 };
 
