@@ -1,4 +1,5 @@
 const STRENGTH_MODIFIER = 4;
+const PROFICIENCY_BONUS = 4;
 const STRENGTH_MODIFIER_SHIFTED = 5;
 
 const CSS_SELECTORS = {
@@ -20,6 +21,17 @@ class ElementParams {
     }
 }
 
+class AttackResult {
+    constructor({ roll, modifier_weapon = 0 }) {
+        this.roll = roll;
+        this.modifier_weapon = modifier_weapon;
+    }
+
+    total() {
+        return this.roll.amount + this.modifier_weapon + STRENGTH_MODIFIER + PROFICIENCY_BONUS;
+    }
+}
+
 const getWeaponParams = (id, data) => {
     let weapon;
     data.forEach(element => {
@@ -33,6 +45,18 @@ const getWeaponParams = (id, data) => {
 const roll = (max) => {
     let min = 1;
     return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
+const rollD20 = () => {
+    return roll(20);
+}
+
+const calculateAttack = (weapon) => {
+    let roll = {"die": {
+        "type":20,
+        "damage": "default"
+    }, "amount": rollD20()}
+    return new AttackResult({"roll": roll, "modifier_weapon": weapon.modifier});
 }
 
 const calculateDamage = (data) => {
@@ -104,9 +128,9 @@ const createDice = (data) => {
         )
 
         let icon = getElement(new ElementParams(
-                {"type": "i", "classes":`icon ${die.damage}`}
-            ))
-        
+            { "type": "i", "classes": `icon ${die.damage}` }
+        ))
+
         dieElement.appendChild(icon)
 
         dice.push(dieElement)
@@ -148,14 +172,21 @@ const createWeapon = (data) => {
 const getFormattedRolls = (rolls) => {
     let result = []
     rolls.forEach(roll => {
-        let rollInfo = `== ${roll.amount} (d${roll.die.type}: ${roll.die.damage}); `
-        result.push(getElement(
-            new ElementParams(
-                { "type": "p", "content": rollInfo, "classes": "result-roll-info" }
-            )
-        ))
+        result.push(formatRoll(roll));
     })
     return result;
+}
+
+function formatRoll(roll) {
+    let rollInfo = `== ${roll.amount} [d${roll.die.type}]`;
+    if (roll.die.damage != "default") {
+        rollInfo += ` [${roll.die.damage}]`;
+    }
+    return getElement(
+        new ElementParams(
+            { "type": "p", "content": rollInfo, "classes": "result-roll-info" }
+        )
+    );
 }
 
 function getGlobalModiferElement() {
@@ -188,6 +219,17 @@ function getTotalDamageElement(totalDamage) {
     return element;
 }
 
+function getAttackRollElement(attackRollResult) {
+    console.log(attackRollResult)
+    let content = `${attackRollResult.total()} (${attackRollResult.total() - STRENGTH_MODIFIER + STRENGTH_MODIFIER_SHIFTED})`;
+    let element = getElement(
+        new ElementParams(
+            { "type": "p", "content": content, "classes": "attack" }
+        )
+    );
+    return element;
+}
+
 const placeWeapons = (data) => {
     data.forEach(element => {
         let weapon = createWeapon(element);
@@ -195,20 +237,21 @@ const placeWeapons = (data) => {
     });
 }
 
-const placeResults = (resultElement, rollResult) => {
-    resultElement.appendChild(getTotalDamageElement(rollResult.total));
+const placeResults = (resultElement, damageRollResult, attackRollResult) => {
+    resultElement.appendChild(getAttackRollElement(attackRollResult))
+    resultElement.appendChild(formatRoll(attackRollResult.roll))
+    resultElement.appendChild(getTotalDamageElement(damageRollResult.total));
 
-    let formattedRolls = getFormattedRolls(rollResult.rolls);
-    formattedRolls.forEach(formattedRoll => {
+    getFormattedRolls(damageRollResult.rolls).forEach(formattedRoll => {
         resultElement.appendChild(formattedRoll)
     })
 
-    resultElement.appendChild(getWeaponModifierElement(rollResult.modifier));
+    resultElement.appendChild(getWeaponModifierElement(damageRollResult.modifier));
     resultElement.appendChild(getGlobalModiferElement());
 }
 
 export {
-    placeWeapons, calculateDamage, placeResults, getWeaponParams,
+    placeWeapons, calculateDamage, placeResults, getWeaponParams, calculateAttack,
     CSS_SELECTORS, ElementParams, getElement, roll
 };
 
