@@ -43,18 +43,18 @@ const calculateAttack = (weapon) => {
     return new AttackResult({"roll": roll, "modifier_weapon": weapon.modifier});
 }
 
-const calculateDamage = (data) => {
+const calculateDamage = (weapon) => {
     let total = 0;
     let rolls = []
 
-    data.dice.forEach(die => {
+    weapon.dice.forEach(die => {
         let rollAmount = roll(die.type);
         total += rollAmount;
         rolls.push({ "die": die, "amount": rollAmount });
     })
 
-    total += data.modifier;
-    return { "total": total, "rolls": rolls, "modifier": data.modifier };
+    total += weapon.modifier + STRENGTH_MODIFIER;
+    return { "total": total, "rolls": rolls, "modifier": weapon.modifier };
 }
 
 function getInfoElement(weapon) {
@@ -163,6 +163,16 @@ function getGlobalModiferElement() {
     return element;
 }
 
+function getProficiencyBonusElement() {
+    let content = `Prof. Bonus: +${PROFICIENCY_BONUS}`;
+    let element = getElement(
+        new ElementParams(
+            { "type": "p", "content": content, "classes": "proficiency-bonus", "id": "proficiency-bonus" }
+        )
+    );
+    return element;
+}
+
 function getWeaponModifierElement(modifier) {
     let content = `Mod: +${modifier}`;
     let element = getElement(
@@ -174,7 +184,7 @@ function getWeaponModifierElement(modifier) {
 }
 
 function getTotalDamageElement(totalDamage) {
-    let content = `${totalDamage + STRENGTH_MODIFIER} (${totalDamage + STRENGTH_MODIFIER_SHIFTED})`;
+    let content = `${totalDamage} (${totalDamage - STRENGTH_MODIFIER + STRENGTH_MODIFIER_SHIFTED})`;
     let element = getElement(
         new ElementParams(
             { "type": "p", "content": content, "classes": "result-total" }
@@ -211,6 +221,7 @@ const placeResults = (resultElement, damageRollResult, attackRollResult) => {
     })
 
     resultElement.appendChild(getWeaponModifierElement(damageRollResult.modifier));
+    resultElement.appendChild(getProficiencyBonusElement());
     resultElement.appendChild(getGlobalModiferElement());
 }
 
