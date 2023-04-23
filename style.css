@@ -12,7 +12,7 @@ body {
 
 
 .result {
-    margin-block: 10px;
+    margin-block-start: 10px;
     padding: 5px 20px;
     background-color: rgba(240, 248, 255, 0.144);
     color: aliceblue;
@@ -64,4 +64,19 @@ span {
 
 .icon.default {
     display: none;
+}
+
+section {
+    padding-inline: 10px;
+}
+
+.weapon {
+    margin-block-end: 10px;
+    background-color: rgb(256, 256, 256, 0.05);
+    padding: 10px;
+}
+
+.weapon>.name {
+    margin-block: 5px;
+    margin-block-end: 15px;
 }

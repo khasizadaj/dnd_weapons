@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DND - Weapons</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <section>
-        <h1>General</h1>
-        <p>Strength modifier: 4 (5)</p>
-    </section>
-    <section class="weapons">
-        <h1>Weapons</h1>
-    </section>
-    <script type="module" src="./script.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DND - Weapons</title>
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+        <section>
+            <h1>General</h1>
+            <p>Strength modifier: 4 (5)</p>
+        </section>
+        <section class="weapons">
+            <h1>Weapons</h1>
+            <article class="weapon">
+                <h3 class="name">Star Sickle</h3>
+                <div class="info">
+                    <span class="damage-die" id="10">1d6
+                        <i class="icon default"></i></span
+                    ><span class="damage-die" id="10"
+                        >1d4<i class="icon radiant"></i></span
+                    ><span class="damage-die" id="10"
+                        >1d4<i class="icon radiant"></i></span
+                    ><span class="modifier">+1</span>
+                </div>
+                <button class="roll" id="bb">Roll</button>
+                <div class="result">N/A</div>
+            </article>
+        </section>
+        <script type="module" src="./script.js"></script>
+    </body>
 </html>
