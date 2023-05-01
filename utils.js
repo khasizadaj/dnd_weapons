@@ -43,12 +43,16 @@ const calculateAttack = (weapon) => {
     return new AttackResult({"roll": roll, "modifier_weapon": weapon.modifier});
 }
 
-const calculateDamage = (weapon) => {
+const calculateDamage = ({ weapon, great_weapon_fighting = false }) => {
     let total = 0;
     let rolls = []
 
     weapon.dice.forEach(die => {
         let rollAmount = roll(die.type);
+        if (great_weapon_fighting && rollAmount === 1) {
+            rollAmount = roll(die.type)
+            console.log(`Rolled one on damage. Rolling again... New damage is ${rollAmount}`)
+        }
         total += rollAmount;
         rolls.push({ "die": die, "amount": rollAmount });
     })
