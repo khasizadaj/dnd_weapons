@@ -1,9 +1,9 @@
 import { roll, rollD20 } from "./die.js";
 import { ElementParams, getElement } from "./htmlElement.js";
 
-const STRENGTH_MODIFIER = 4;
-const PROFICIENCY_BONUS = 4;
-const STRENGTH_MODIFIER_SHIFTED = 5;
+const STRENGTH_MODIFIER = 5;
+const PROFICIENCY_BONUS = 5;
+const STRENGTH_MODIFIER_SHIFTED = 6;
 
 const CSS_SELECTORS = {
     "weapon": ".weapon",
