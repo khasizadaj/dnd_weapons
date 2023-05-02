@@ -9,12 +9,7 @@ const weapons = [
                 "damage": "default"
             },
             {
-                "count": 1,
-                "type": 4,
-                "damage": "radiant"
-            },
-            {
-                "count": 1,
+                "count": 2,
                 "type": 4,
                 "damage": "radiant"
             },
@@ -26,12 +21,7 @@ const weapons = [
         "name": "Maul",
         "dice": [
             {
-                "count": 1,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
+                "count": 2,
                 "type": 6,
                 "damage": "default"
             },
@@ -68,6 +58,18 @@ const weapons = [
         "modifier": 2
     },
     {
+        "id": "cc",
+        "name": "Star Razor [two handed]",
+        "dice": [
+            {
+                "count": 1,
+                "type": 10,
+                "damage": "default"
+            },
+        ],
+        "modifier": 2
+    },
+    {
         "id": "dd",
         "name": "Bite",
         "dice": [
@@ -84,19 +86,14 @@ const weapons = [
         "name": "Claw",
         "dice": [
             {
-                "count": 1,
-                "type": 8,
-                "damage": "default"
-            },
-            {
-                "count": 1,
+                "count": 2,
                 "type": 8,
                 "damage": "default"
             },
             {
                 "count": 1,
                 "type": 6,
-                "damage": "default"
+                "damage": "necrotic"
             },
         ],
         "modifier": 0
@@ -106,12 +103,7 @@ const weapons = [
         "name": "Greatsword of Artorius",
         "dice": [
             {
-                "count": 1,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
+                "count": 2,
                 "type": 6,
                 "damage": "default"
             },
@@ -122,6 +114,33 @@ const weapons = [
             },
             {
                 "count": 1,
+                "type": 6,
+                "damage": "radiant"
+            },
+        ],
+        "modifier": 2
+    },
+    {
+        "id": "aa",
+        "name": "Greatsword of Artorius [against undead & demons]",
+        "dice": [
+            {
+                "count": 2,
+                "type": 6,
+                "damage": "default"
+            },
+            {
+                "count": 1,
+                "type": 6,
+                "damage": "force"
+            },
+            {
+                "count": 1,
+                "type": 8,
+                "damage": "force"
+            },
+            {
+                "count": 2,
                 "type": 6,
                 "damage": "radiant"
             },

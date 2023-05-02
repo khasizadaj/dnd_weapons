@@ -48,15 +48,17 @@ const calculateDamage = ({ weapon, great_weapon_fighting = false }) => {
     let rolls = []
 
     weapon.dice.forEach(die => {
-        let rollAmount = roll(die.type);
-        if (great_weapon_fighting && (rollAmount === 1 || rollAmount === 2) ) {
-            let message = `Rolled low... ${rollAmount}... Huh?`
-            rollAmount = roll(die.type)
-            message += `Rolling again... New damage is ${rollAmount}`
-            console.log(message)
+        for (let i = 0; i < die.count ;i++) {
+            let rollAmount = roll(die.type);
+            if (great_weapon_fighting && (rollAmount === 1 || rollAmount === 2) ) {
+                let message = `Rolled low... ${rollAmount}... Huh?`
+                rollAmount = roll(die.type)
+                message += `Rolling again... New damage is ${rollAmount}`
+                console.log(message)
+            }
+            total += rollAmount;
+            rolls.push({ "die": die, "amount": rollAmount });
         }
-        total += rollAmount;
-        rolls.push({ "die": die, "amount": rollAmount });
     })
 
     total += weapon.modifier + STRENGTH_MODIFIER;
