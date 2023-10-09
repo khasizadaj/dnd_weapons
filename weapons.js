@@ -4,7 +4,7 @@ const weapons = [
         "name": "Star Sickle",
         "dice": [
             {
-                "count": 1,
+                "count": 3,
                 "type": 6,
                 "damage": "default"
             },
