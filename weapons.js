@@ -17,6 +17,40 @@ const weapons = [
         "modifier": 3
     },
     {
+        "id": "aa",
+        "name": "Greatsword of Artorius",
+        "dice": [
+            {
+                "count": 2,
+                "type": 6,
+                "damage": "default"
+            },
+            {
+                "count": 1,
+                "type": 6,
+                "damage": "force"
+            },
+            {
+                "count": 1,
+                "type": 6,
+                "damage": "radiant"
+            },
+        ],
+        "modifier": 2
+    },
+    {
+        "id": "cc",
+        "name": "Star Razor [two handed]",
+        "dice": [
+            {
+                "count": 1,
+                "type": 10,
+                "damage": "default"
+            },
+        ],
+        "modifier": 2
+    },
+    {
         "id": "ff",
         "name": "Maul",
         "dice": [
@@ -58,18 +92,6 @@ const weapons = [
         "modifier": 2
     },
     {
-        "id": "cc",
-        "name": "Star Razor [two handed]",
-        "dice": [
-            {
-                "count": 1,
-                "type": 10,
-                "damage": "default"
-            },
-        ],
-        "modifier": 2
-    },
-    {
         "id": "dd",
         "name": "Bite",
         "dice": [
@@ -99,29 +121,7 @@ const weapons = [
         "modifier": 0
     },
     {
-        "id": "aa",
-        "name": "Greatsword of Artorius",
-        "dice": [
-            {
-                "count": 2,
-                "type": 6,
-                "damage": "default"
-            },
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "force"
-            },
-            {
-                "count": 1,
-                "type": 6,
-                "damage": "radiant"
-            },
-        ],
-        "modifier": 2
-    },
-    {
-        "id": "aa",
+        "id": "aa-2",
         "name": "Greatsword of Artorius [against undead & demons]",
         "dice": [
             {
@@ -147,6 +147,7 @@ const weapons = [
         ],
         "modifier": 2
     }
+
 ]
 
 export { weapons };
