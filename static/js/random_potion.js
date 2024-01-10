@@ -1,5 +1,6 @@
-import { POTIONS } from "./potions.js";
-import { ElementParams, getElement, roll } from "./utils.js";
+import { POTIONS } from "../../data/potions.js";
+import { roll } from "./die.js";
+import { ElementParams, getElement } from "./htmlElement.js";
 
 const NUMBER_OF_POTIONS = 3;
 

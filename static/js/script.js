@@ -1,5 +1,5 @@
 import { CSS_SELECTORS, calculateAttack, calculateDamage, getWeaponParams, placeResults, placeWeapons } from "./utils.js";
-import { weapons } from "./weapons.js";
+import { weapons } from "../../data/weapons.js";
 
 // TODO Have a switch for this fighting style
 const GREAT_WEAPON_FIGHTING = true;
