@@ -40,12 +40,12 @@ const weapons = [
     },
     {
         "id": "cc",
-        "name": "Star Razor [two handed]",
+        "name": "Star Razor",
         "dice": [
             {
-                "count": 1,
-                "type": 10,
-                "damage": "default"
+                "count": 2,
+                "type": 8,
+                "damage": "radiant"
             },
         ],
         "modifier": 2
@@ -63,30 +63,6 @@ const weapons = [
                 "count": 1,
                 "type": 4,
                 "damage": "fire"
-            },
-        ],
-        "modifier": 2
-    },
-    {
-        "id": "gg",
-        "name": "Spear",
-        "dice": [
-            {
-                "count": 1,
-                "type": 8,
-                "damage": "default"
-            },
-        ],
-        "modifier": 2
-    },
-    {
-        "id": "cc",
-        "name": "Star Razor",
-        "dice": [
-            {
-                "count": 1,
-                "type": 8,
-                "damage": "default"
             },
         ],
         "modifier": 2
