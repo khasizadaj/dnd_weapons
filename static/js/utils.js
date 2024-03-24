@@ -222,6 +222,9 @@ const placeWeapons = (data) => {
 const placeResults = (resultElement, damageRollResult, attackRollResult) => {
     resultElement.appendChild(getAttackRollElement(attackRollResult))
     resultElement.appendChild(formatRoll(attackRollResult.roll))
+    resultElement.appendChild(getElement(new ElementParams(
+        { "type": "p", "content": "---------------", "classes": "attack" }
+    )));
     resultElement.appendChild(getTotalDamageElement(damageRollResult.total));
 
     getFormattedRolls(damageRollResult.rolls).forEach(formattedRoll => {
